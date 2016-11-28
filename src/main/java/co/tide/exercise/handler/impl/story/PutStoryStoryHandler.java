@@ -10,6 +10,8 @@ import co.tide.exercise.response.Status;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PutStoryStoryHandler extends ParentStoryHandler implements Handler {
 
@@ -23,15 +25,20 @@ public class PutStoryStoryHandler extends ParentStoryHandler implements Handler 
     public Response execute(HttpExchange httpExchange) {
 
         final String path = httpExchange.getRequestURI().getPath();
+        final Pattern likePattern = Pattern.compile("/story/(\\d+)/like");
+        final Optional<Matcher> likeMatcher = matches(path, likePattern);
+        final Pattern dislikePattern = Pattern.compile("/story/(\\d+)/dislike");
+        final Optional<Matcher> dislikeMatcher = matches(path, dislikePattern);
+
         int storyId = getStoryIdFrom(path);
         Optional<Story> story;
 
-        if (path.matches("/story/(\\d+)/like")) {
+        if (likeMatcher.isPresent()) {
             story = storyProvider.incrementPopularity(storyId);
             return createResponse(storyId, story);
         }
 
-        if (path.matches("/story/(\\d+)/dislike")) {
+        if (dislikeMatcher.isPresent()) {
             story = storyProvider.decrementPopularity(storyId);
             return createResponse(storyId, story);
         }

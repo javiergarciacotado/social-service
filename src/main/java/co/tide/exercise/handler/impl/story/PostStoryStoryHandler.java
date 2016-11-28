@@ -11,6 +11,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -33,7 +35,10 @@ public class PostStoryStoryHandler extends ParentStoryHandler implements Handler
     public Response execute(HttpExchange httpExchange) {
         final String path = httpExchange.getRequestURI().getPath();
 
-        if (path.matches("/story/(\\d+)")) {
+        final Pattern pattern = Pattern.compile("/story/(\\d+)");
+        final Optional<Matcher> matcher = matches(path, pattern);
+
+        if(matcher.isPresent()) {
             int storyId = getStoryIdFrom(path);
             if (storyId != -1) {
                 final Story story = retrievePopularityFromRequestBody(httpExchange, storyId);

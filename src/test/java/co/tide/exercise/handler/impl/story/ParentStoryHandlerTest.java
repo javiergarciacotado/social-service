@@ -31,7 +31,7 @@ public class ParentStoryHandlerTest {
     }
 
     @Test
-    public void givenAnInvalidPathShouldReturnAProblem() {
+    public void givenAnInvalidPathShouldReturnBadRequest() {
         String path = "/story/-1";
         final Problem problem = new Problem(ProblemType.INVALID_PARAM, format("Invalid {0} parameter", path), format("Invalid value for {0} path supplied", path));
         final Response response = parentStoryHandler.badRequest(path);
@@ -40,7 +40,7 @@ public class ParentStoryHandlerTest {
     }
 
     @Test
-    public void givenASqlProblemShouldReturnAProblem() throws Exception {
+    public void givenASqlProblemShouldReturnAnInternalServerError() throws Exception {
 
         int storyId = 0;
         final Problem problem = new Problem(ProblemType.SQL_EXCEPTION, "Problem while updating popularity", "There was a problem to update the story: " + storyId);
@@ -51,7 +51,7 @@ public class ParentStoryHandlerTest {
     }
 
     @Test
-    public void givenNotResourceFoundShouldReturnAProblem() throws Exception {
+    public void givenNoResourceShouldReturnNotFound() throws Exception {
 
         int storyId = 0;
         final Problem problem = new Problem(ProblemType.INVALID_PARAM, "Resource not found", "There is no popularity for story: " + storyId);

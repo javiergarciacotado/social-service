@@ -57,6 +57,7 @@ public class StoryHandlerTest {
         verify(httpExchange, times(1)).getResponseHeaders();
         verify(httpExchange, times(1)).getResponseBody();
         verify(handlerFactory.get("DELETE"), times(1)).execute(httpExchange);
+        verify(noHandler, times(1)).execute(httpExchange);
         verify(response, times(1)).getStatus();
         verify(response, times(1)).getResponseHeaders();
         verify(response, times(1)).getBody();
@@ -82,6 +83,7 @@ public class StoryHandlerTest {
         verify(httpExchange, times(1)).getResponseHeaders();
         verify(httpExchange, times(1)).getResponseBody();
         verify(handlerFactory.get("GET"), times(1)).execute(httpExchange);
+        verify(getStoryHandler, times(1)).execute(httpExchange);
         verify(response, times(1)).getStatus();
         verify(response, times(1)).getResponseHeaders();
         verify(response, times(1)).getBody();

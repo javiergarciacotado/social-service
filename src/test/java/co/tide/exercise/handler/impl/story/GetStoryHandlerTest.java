@@ -18,7 +18,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
-import static java.text.MessageFormat.format;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -37,19 +36,6 @@ public class GetStoryHandlerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         this.getStoryHandler = new GetStoryStoryHandler(storyProvider);
-    }
-
-    @Test
-    public void givenAnInvalidPathShouldReturnBadRequest() throws URISyntaxException {
-        final URI uri =  new URI(INVALID_PATH);
-        final Problem problem = new Problem(ProblemType.INVALID_PARAM, format("Invalid {0} parameter", uri.getPath()), format("Invalid value for {0} path supplied", uri.getPath()));
-        final Response expectedResponse = new Response(Status.BAD_REQUEST, new ResponseHeaders(), new Body(problem));
-
-        when(httpExchange.getRequestURI()).thenReturn(uri);
-
-        final Response response = getStoryHandler.execute(httpExchange);
-
-        assertThat(expectedResponse, is(equalTo(response)));
     }
 
     @Test

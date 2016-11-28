@@ -7,12 +7,18 @@ import co.tide.exercise.response.Response;
 import co.tide.exercise.response.ResponseHeaders;
 import co.tide.exercise.response.Status;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import static java.text.MessageFormat.format;
 
 public class ParentStoryHandler {
+
+    Optional<Matcher> matches(String path, Pattern pattern) {
+        return Stream.of(path).map(pattern::matcher).filter(Matcher::matches).findFirst();
+    }
 
     int getStoryIdFrom(final String path) {
         Pattern pattern = Pattern.compile("(\\d+)");
